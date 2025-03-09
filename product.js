@@ -1,4 +1,4 @@
-const products=[
+const products = [
     {
         "title": "Palm Tree",
         "price": 210,
@@ -123,12 +123,12 @@ const products=[
 
 
 
-    
-function showProduct() {
-for (const product of products) {
 
-    const productCard= document.createElement("div"); 
-    productCard.innerHTML=`
+function showProduct() {
+    for (const product of products) {
+
+        const productCard = document.createElement("div");
+        productCard.innerHTML = `
 
        <div class="flex flex-col items-center p-4 rounded-lg shadow bg-white shadow-gray-300 gap-4" data-aos="zoom-in">
                     <div class="max-w-64 min-h-64 h-70 overflow-hidden">
@@ -147,11 +147,11 @@ for (const product of products) {
                
     
     `
-    document.getElementById("productContainer").append(productCard);
-    
-}
+        document.getElementById("productContainer").append(productCard);
 
-    
+    }
+
+
 }
 
 showProduct();
@@ -160,5 +160,60 @@ showProduct();
 
 document.getElementById("shoppingCart").addEventListener("click", () => {
     const cardModal = document.getElementById("cardModal");
-    cardModal.classList.toggle("hidden"); 
+    cardModal.classList.toggle("hidden");
+});
+
+let cardCount = 0;
+document.getElementById("productContainer").addEventListener("click", (e) => {
+    if (e.target.tagName === "BUTTON") {
+        const itemName = e.target.parentNode.children[1].innerText;
+        const itemPrice = e.target.parentNode.children[2].querySelector("span").innerText;
+        const itemImage = e.target.parentNode.children[0].querySelector("img").src;
+        const cardItem = document.getElementById("cardItem");
+
+       console.log(itemImage);
+       
+
+        cardCount++;
+        cardItem.innerText = cardCount;
+
+        const cartList = document.getElementById("cardModal");
+
+       
+        let existingItem = [...cartList.children].find(item => 
+            item.querySelector(".item-name")?.innerText === itemName
+        );
+
+        if (existingItem) {
+            
+            let quantitySpan = existingItem.querySelector(".item-quantity");
+            quantitySpan.innerText = parseInt(quantitySpan.innerText) + 1;
+        } else {
+
+            const listItem = document.createElement("div");
+            listItem.innerHTML = `
+                <div class="flex items-center justify-between shadow-md p-2 rounded-lg bg-white">
+                    <div class="border rounded-md p-1 border-gray-300 shadow">
+                        <img class="w-12 h-full object-cover" src="${itemImage}" alt="">
+                    </div>
+                    <div class="space-y-2">
+                        <h2 class="text-xl font-bold item-name line-clamp-1">${itemName}</h2>
+                        <div class="flex justify-between items-center">
+                            <div class="flex p-2 rounded-full shadow items-center justify-center h-6 w-6 bg-red-500 text-white text-sm cursor-pointer decrease">
+                                <i class="fa-solid fa-minus"></i>
+                            </div>
+                            <span class="font-bold text-emerald-500 item-quantity">1</span>
+                            <div class="flex p-2 rounded-full shadow items-center justify-center h-6 w-6 bg-emerald-500 text-white text-sm cursor-pointer increase">
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-xl font-bold">
+                        <p class="item-price">${itemPrice}/-</p>
+                    </div>
+                </div>
+            `;
+            cartList.appendChild(listItem);
+        }
+    }
 });
