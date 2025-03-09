@@ -135,7 +135,7 @@ for (const product of products) {
                         <img class="w-full h-full object-cover rounded-lg p-4 mx-auto"
                             src="${product.photo}">
                     </div>
-                    <h3 class="text-2xl font-medium mt-3">${product.title}r</h3>
+                    <h3 class="text-2xl font-medium mt-3">${product.title}</h3>
                     <p class="text-2xl">
                         <s class="text-gray-400">$${product.price}</s> <span class="text-emerald-600 font-bold">$${product.discount}</span>
                     </p>
@@ -155,3 +155,10 @@ for (const product of products) {
 }
 
 showProduct();
+
+
+
+document.getElementById("shoppingCart").addEventListener("click", () => {
+    const cardModal = document.getElementById("cardModal");
+    cardModal.classList.toggle("hidden"); 
+});
